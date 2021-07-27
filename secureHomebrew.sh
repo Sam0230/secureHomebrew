@@ -46,4 +46,16 @@ sudo sh -c "echo '_homebrew ALL = (ALL) NOPASSWD:ALL' >/etc/sudoers.d/homebrew_a
 sudo touch /usr/local/mnthbvol
 sudo chmod 700 /usr/local/mnthbvol
 echo $'#!/bin/sh\nsudo diskutil apfs unlockVolume "'"$diskUUID"'" -passphrase "'"$password"$'" -nomount >/dev/null 2>/dev/null\nsudo diskutil mount nobrowse -mountOptions nobrowse,noowners,-u=290,-g=290 -mountPoint /opt/homebrew "'"$diskUUID"'" >/dev/null' | sudo tee /usr/local/mnthbvol >/dev/null
+echo '<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>nonexist.sam0230.securehomebrew</string>
+	<key>Program</key>
+	<string>/usr/local/mnthbvol</string>
+	<key>RunAtLoad</key>
+	<true/>
+</dict>
+</plist>' | sudo tee /Library/LaunchDaemons/nonexist.sam0230.securehomebrew.plist >/dev/null
 echo 'Now `/opt/homebrew/enterbrewenv "cd /opt/homebrew/brewaccounthome" "" bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"` to begin Homebrew installation.'
