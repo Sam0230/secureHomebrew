@@ -36,7 +36,56 @@ sudo mkdir /opt/homebrew/brewaccounthome
 # echo $'#include <stdlib.h>\n#include <unistd.h>\n#include <errno.h>\n\nint main(int argc, char * argv[]) {\n\tint uid=atoi(argv[1]), gid=atoi(argv[2]);\n\tif (setregid(gid, gid)) {\n\t\treturn errno;\n\t}\n\tif (setreuid(uid, uid)) {\n\t\treturn errno;\n\t}\n\tif (execvp(argv[3], argv + 4)) {\n\t\treturn errno;\n\t}\n\treturn -1;\n}' | sudo gcc -x c -o /opt/homebrew/setugid -
 echo $'#!/bin/sh\numask 002\nPATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"\nexec sudo sudo -u _homebrew -- "$@"' | sudo tee /opt/homebrew/enterbrewenv_raw >/dev/null
 sudo chmod 755 /opt/homebrew/enterbrewenv_raw
-echo $'#!/bin/sh\neval "$1"\nprecmd="$2"\nshift\nshift\nexec /opt/homebrew/enterbrewenv_raw /bin/sh -c \'umask 002; export http_proxy="$1"; export https_proxy="$2"; export ftp_proxy="$3"; export telnet_proxy="$4"; export socks_proxy="$5"; export HTTP_PROXY="$6"; export HTTPS_PROXY="$7"; export FTP_PROXY="$8"; export TELNET_PROXY="$9"; export SOCKS_PROXY="${10}"; export HOMEBREW_BOTTLE_DOMAIN="${11}"; export HOMEBREW_BREW_GIT_REMOTE="${12}"; export HOMEBREW_CORE_GIT_REMOTE="${13}"; eval "${14}"; shift; shift; shift; shift; shift; shift; shift; shift; shift; shift; shift; shift; shift; shift; exec -- "$@"\' - "$http_proxy" "$https_proxy" "$ftp_proxy" "$telnet_proxy" "$socks_proxy" "$HTTP_PROXY" "$HTTPS_PROXY" "$FTP_PROXY" "$TELNET_PROXY" "$SOCKS_PROXY" "$HOMEBREW_BOTTLE_DOMAIN" "$HOMEBREW_BREW_GIT_REMOTE" "$HOMEBREW_CORE_GIT_REMOTE" "$precmd" "$@"' | sudo tee /opt/homebrew/enterbrewenv >/dev/null
+sudo tee /opt/homebrew/enterbrewenv >/dev/null <<__END__
+#!/bin/sh
+eval "\$1"
+precmd="\$2"
+shift
+shift
+exec /opt/homebrew/enterbrewenv_raw /bin/sh -c '
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin"
+mkdir -p /opt/homebrew/var/tmp
+export HOMEBREW_TEMP=/opt/homebrew/var/tmp
+unset SUDO_COMMAND
+umask 0002
+envWarn=0
+if [ "\$1"		!= "" ]; then envWarn=1; printf "Warning: http_proxy is set!\n%s\n" "http_proxy=\$1"; 								export http_proxy="\$1"					; fi
+if [ "\$2"		!= "" ]; then envWarn=1; printf "Warning: https_proxy is set!\n%s\n" "https_proxy=\$2"; 								export https_proxy="\$2"					; fi
+if [ "\$3"		!= "" ]; then envWarn=1; printf "Warning: ftp_proxy is set!\n%s\n" "ftp_proxy=\$3"; 									export ftp_proxy="\$3"					; fi
+if [ "\$4"		!= "" ]; then envWarn=1; printf "Warning: telnet_proxy is set!\n%s\n" "telnet_proxy=\$4"; 							export telnet_proxy="\$4"				; fi
+if [ "\$5"		!= "" ]; then envWarn=1; printf "Warning: socks_proxy is set!\n%s\n" "socks_proxy=\$5"; 								export socks_proxy="\$5"					; fi
+if [ "\$6"		!= "" ]; then envWarn=1; printf "Warning: HTTP_PROXY is set!\n%s\n" "HTTP_PROXY=\$6"; 								export HTTP_PROXY="\$6"					; fi
+if [ "\$7"		!= "" ]; then envWarn=1; printf "Warning: HTTPS_PROXY is set!\n%s\n" "HTTPS_PROXY=\$7"; 								export HTTPS_PROXY="\$7"					; fi
+if [ "\$8"		!= "" ]; then envWarn=1; printf "Warning: FTP_PROXY is set!\n%s\n" "FTP_PROXY=\$8"; 									export FTP_PROXY="\$8"					; fi
+if [ "\$9"		!= "" ]; then envWarn=1; printf "Warning: TELNET_PROXY is set!\n%s\n" "TELNET_PROXY=\$9"; 							export TELNET_PROXY="\$9"				; fi
+if [ "\${10}"	!= "" ]; then envWarn=1; printf "Warning: SOCKS_PROXY is set!\n%s\n" "SOCKS_PROXY=\${10}"; 							export SOCKS_PROXY="\${10}"				; fi
+if [ "\${11}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_BOTTLE_DOMAIN is set!\n%s\n" "HOMEBREW_BOTTLE_DOMAIN=\${11}";		export HOMEBREW_BOTTLE_DOMAIN="\${11}"	; fi
+if [ "\${12}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_BREW_GIT_REMOTE is set!\n%s\n" "HOMEBREW_BREW_GIT_REMOTE=\${12}";	export HOMEBREW_BREW_GIT_REMOTE="\${12}"	; fi
+if [ "\${13}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_CORE_GIT_REMOTE is set!\n%s\n" "HOMEBREW_CORE_GIT_REMOTE=\${13}";	export HOMEBREW_CORE_GIT_REMOTE="\${13}"	; fi
+if [ "\$envWarn" == "1" ]; then
+	read -p "Continue? (Y/n) " cont
+	if [ "\$cont" == "n" -o "\$cont" == "N" ]; then
+		exit
+	fi
+fi
+eval "\${14}"
+shift
+shift
+shift
+shift
+shift
+shift
+shift
+shift
+shift
+shift
+shift
+shift
+shift
+shift
+exec -- "\$@"
+' - "\$http_proxy" "\$https_proxy" "\$ftp_proxy" "\$telnet_proxy" "\$socks_proxy" "\$HTTP_PROXY" "\$HTTPS_PROXY" "\$FTP_PROXY" "\$TELNET_PROXY" "\$SOCKS_PROXY" "\$HOMEBREW_BOTTLE_DOMAIN" "\$HOMEBREW_BREW_GIT_REMOTE" "\$HOMEBREW_CORE_GIT_REMOTE" "\$precmd" "\$@"
+__END__
 sudo chmod 755 /opt/homebrew/enterbrewenv
 echo $'#!/bin/sh\nexec /opt/homebrew/enterbrewenv "cd /opt/homebrew/brewaccounthome" "" /opt/homebrew/bin/brew "$@"' | sudo tee /opt/homebrew/sbrew >/dev/null
 sudo chmod 755 /opt/homebrew/sbrew
