@@ -59,9 +59,9 @@ if [ "\$7"		!= "" ]; then envWarn=1; printf "Warning: HTTPS_PROXY has been set!\
 if [ "\$8"		!= "" ]; then envWarn=1; printf "Warning: FTP_PROXY has been set!\n%s\n" "FTP_PROXY=\$8"; 									export FTP_PROXY="\$8"					; fi
 if [ "\$9"		!= "" ]; then envWarn=1; printf "Warning: TELNET_PROXY has been set!\n%s\n" "TELNET_PROXY=\$9"; 							export TELNET_PROXY="\$9"				; fi
 if [ "\${10}"	!= "" ]; then envWarn=1; printf "Warning: ALL_PROXY has been set!\n%s\n" "ALL_PROXY=\${10}"; 							export ALL_PROXY="\${10}"				; fi
-if [ "\${11}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_BOTTLE_DOMAIN is set!\n%s\n" "HOMEBREW_BOTTLE_DOMAIN=\${11}";		export HOMEBREW_BOTTLE_DOMAIN="\${11}"	; fi
-if [ "\${12}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_BREW_GIT_REMOTE is set!\n%s\n" "HOMEBREW_BREW_GIT_REMOTE=\${12}";	export HOMEBREW_BREW_GIT_REMOTE="\${12}"	; fi
-if [ "\${13}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_CORE_GIT_REMOTE is set!\n%s\n" "HOMEBREW_CORE_GIT_REMOTE=\${13}";	export HOMEBREW_CORE_GIT_REMOTE="\${13}"	; fi
+if [ "\${11}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_BOTTLE_DOMAIN has been set!\n%s\n" "HOMEBREW_BOTTLE_DOMAIN=\${11}";		export HOMEBREW_BOTTLE_DOMAIN="\${11}"	; fi
+if [ "\${12}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_BREW_GIT_REMOTE has been set!\n%s\n" "HOMEBREW_BREW_GIT_REMOTE=\${12}";	export HOMEBREW_BREW_GIT_REMOTE="\${12}"	; fi
+if [ "\${13}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_CORE_GIT_REMOTE has been set!\n%s\n" "HOMEBREW_CORE_GIT_REMOTE=\${13}";	export HOMEBREW_CORE_GIT_REMOTE="\${13}"	; fi
 if [ "\$envWarn" == "1" ]; then
 	read -p "Continue? (Y/n) " cont
 	if [ "\$cont" == "n" -o "\$cont" == "N" ]; then
