@@ -49,16 +49,16 @@ export HOMEBREW_TEMP=/opt/homebrew/var/tmp
 unset SUDO_COMMAND
 umask 0002
 envWarn=0
-if [ "\$1"		!= "" ]; then envWarn=1; printf "Warning: http_proxy is set!\n%s\n" "http_proxy=\$1"; 								export http_proxy="\$1"					; fi
-if [ "\$2"		!= "" ]; then envWarn=1; printf "Warning: https_proxy is set!\n%s\n" "https_proxy=\$2"; 								export https_proxy="\$2"					; fi
-if [ "\$3"		!= "" ]; then envWarn=1; printf "Warning: ftp_proxy is set!\n%s\n" "ftp_proxy=\$3"; 									export ftp_proxy="\$3"					; fi
-if [ "\$4"		!= "" ]; then envWarn=1; printf "Warning: telnet_proxy is set!\n%s\n" "telnet_proxy=\$4"; 							export telnet_proxy="\$4"				; fi
-if [ "\$5"		!= "" ]; then envWarn=1; printf "Warning: socks_proxy is set!\n%s\n" "socks_proxy=\$5"; 								export socks_proxy="\$5"					; fi
-if [ "\$6"		!= "" ]; then envWarn=1; printf "Warning: HTTP_PROXY is set!\n%s\n" "HTTP_PROXY=\$6"; 								export HTTP_PROXY="\$6"					; fi
-if [ "\$7"		!= "" ]; then envWarn=1; printf "Warning: HTTPS_PROXY is set!\n%s\n" "HTTPS_PROXY=\$7"; 								export HTTPS_PROXY="\$7"					; fi
-if [ "\$8"		!= "" ]; then envWarn=1; printf "Warning: FTP_PROXY is set!\n%s\n" "FTP_PROXY=\$8"; 									export FTP_PROXY="\$8"					; fi
-if [ "\$9"		!= "" ]; then envWarn=1; printf "Warning: TELNET_PROXY is set!\n%s\n" "TELNET_PROXY=\$9"; 							export TELNET_PROXY="\$9"				; fi
-if [ "\${10}"	!= "" ]; then envWarn=1; printf "Warning: SOCKS_PROXY is set!\n%s\n" "SOCKS_PROXY=\${10}"; 							export SOCKS_PROXY="\${10}"				; fi
+if [ "\$1"		!= "" ]; then envWarn=1; printf "Warning: http_proxy has been set!\n%s\n" "http_proxy=\$1"; 								export http_proxy="\$1"					; fi
+if [ "\$2"		!= "" ]; then envWarn=1; printf "Warning: https_proxy has been set!\n%s\n" "https_proxy=\$2"; 								export https_proxy="\$2"					; fi
+if [ "\$3"		!= "" ]; then envWarn=1; printf "Warning: ftp_proxy has been set!\n%s\n" "ftp_proxy=\$3"; 									export ftp_proxy="\$3"					; fi
+if [ "\$4"		!= "" ]; then envWarn=1; printf "Warning: telnet_proxy has been set!\n%s\n" "telnet_proxy=\$4"; 							export telnet_proxy="\$4"				; fi
+if [ "\$5"		!= "" ]; then envWarn=1; printf "Warning: all_proxy has been set!\n%s\n" "all_proxy=\$5"; 								export all_proxy="\$5"					; fi
+if [ "\$6"		!= "" ]; then envWarn=1; printf "Warning: HTTP_PROXY has been set!\n%s\n" "HTTP_PROXY=\$6"; 								export HTTP_PROXY="\$6"					; fi
+if [ "\$7"		!= "" ]; then envWarn=1; printf "Warning: HTTPS_PROXY has been set!\n%s\n" "HTTPS_PROXY=\$7"; 								export HTTPS_PROXY="\$7"					; fi
+if [ "\$8"		!= "" ]; then envWarn=1; printf "Warning: FTP_PROXY has been set!\n%s\n" "FTP_PROXY=\$8"; 									export FTP_PROXY="\$8"					; fi
+if [ "\$9"		!= "" ]; then envWarn=1; printf "Warning: TELNET_PROXY has been set!\n%s\n" "TELNET_PROXY=\$9"; 							export TELNET_PROXY="\$9"				; fi
+if [ "\${10}"	!= "" ]; then envWarn=1; printf "Warning: ALL_PROXY has been set!\n%s\n" "ALL_PROXY=\${10}"; 							export ALL_PROXY="\${10}"				; fi
 if [ "\${11}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_BOTTLE_DOMAIN is set!\n%s\n" "HOMEBREW_BOTTLE_DOMAIN=\${11}";		export HOMEBREW_BOTTLE_DOMAIN="\${11}"	; fi
 if [ "\${12}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_BREW_GIT_REMOTE is set!\n%s\n" "HOMEBREW_BREW_GIT_REMOTE=\${12}";	export HOMEBREW_BREW_GIT_REMOTE="\${12}"	; fi
 if [ "\${13}"	!= "" ]; then envWarn=1; printf "Warning: HOMEBREW_CORE_GIT_REMOTE is set!\n%s\n" "HOMEBREW_CORE_GIT_REMOTE=\${13}";	export HOMEBREW_CORE_GIT_REMOTE="\${13}"	; fi
@@ -84,7 +84,7 @@ shift
 shift
 shift
 exec -- "\$@"
-' - "\$http_proxy" "\$https_proxy" "\$ftp_proxy" "\$telnet_proxy" "\$socks_proxy" "\$HTTP_PROXY" "\$HTTPS_PROXY" "\$FTP_PROXY" "\$TELNET_PROXY" "\$SOCKS_PROXY" "\$HOMEBREW_BOTTLE_DOMAIN" "\$HOMEBREW_BREW_GIT_REMOTE" "\$HOMEBREW_CORE_GIT_REMOTE" "\$precmd" "\$@"
+' - "\$http_proxy" "\$https_proxy" "\$ftp_proxy" "\$telnet_proxy" "\$all_proxy" "\$HTTP_PROXY" "\$HTTPS_PROXY" "\$FTP_PROXY" "\$TELNET_PROXY" "\$ALL_PROXY" "\$HOMEBREW_BOTTLE_DOMAIN" "\$HOMEBREW_BREW_GIT_REMOTE" "\$HOMEBREW_CORE_GIT_REMOTE" "\$precmd" "\$@"
 __END__
 sudo chmod 755 /opt/homebrew/enterbrewenv
 echo $'#!/bin/sh\nexec /opt/homebrew/enterbrewenv "cd /opt/homebrew/brewaccounthome" "" /opt/homebrew/bin/brew "$@"' | sudo tee /opt/homebrew/sbrew >/dev/null
